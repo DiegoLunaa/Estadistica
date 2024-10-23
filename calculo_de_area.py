@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import quad
 from tkinter import *
 from tkinter import messagebox
+from fractions import Fraction
 
 # Función para verificar si el número es negativo (para mostrarlo con paréntesis)
 def negativo(variable):
@@ -18,11 +19,11 @@ def funcion_cuadratica(a, b, c, x):
 def graficar():
     try:
         # Obtener valores desde los campos de entrada
-        a = float(entry_a.get())
-        b = float(entry_b.get())
-        c = float(entry_c.get())
-        x1 = float(entry_x1.get())
-        x2 = float(entry_x2.get())
+        a = float(Fraction(entry_a.get()))
+        b = float(Fraction(entry_b.get()))
+        c = float(Fraction(entry_c.get()))
+        x1 = float(Fraction(entry_x1.get()))
+        x2 = float(Fraction(entry_x2.get()))
         cant_rectangulos = int(entry_rectangulos.get())
 
         if x1 >= x2:
@@ -33,7 +34,7 @@ def graficar():
         x_values = np.linspace(x1 - 1, x2 + 1, 400)
         y_values = funcion_cuadratica(a, b, c, x_values)
 
-        plt.plot(x_values, y_values, label=f'f(x) = {negativo(a)}x² + {negativo(b)}x + {negativo(c)}', color='blue')
+        plt.plot(x_values, y_values, label=f'f(x) = {negativo(round(a, 4))}x² + {negativo(round(b, 4))}x + {negativo(round(c, 4))}', color='blue')
 
         # Área con rectángulos
         intervalo_rectangulo = (x2 - x1) / cant_rectangulos
@@ -154,3 +155,4 @@ Botón_limpiar = Button(ventana, text="Limpiar", font=("Arial", 18), bg="#66B2C4
 
 
 ventana.mainloop()
+
