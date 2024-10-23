@@ -14,10 +14,6 @@ def negativo(variable):
 def funcion_cuadratica(a, b, c, x):
     return a * x**2 + b * x + c
 
-# Evaluar función cuadrática para la integración
-def evaluar_funcion_cuadratica(x):
-    return funcion_cuadratica(a, b, c, x)
-
 # Función para graficar desde la interfaz
 def graficar():
     try:
@@ -56,7 +52,9 @@ def graficar():
             plt.fill_between([intervalo_inicial, intervalo_final], 0, y_inferior, color='red', alpha=1)
 
             # Rellenar el área superior en azul
-            plt.fill_between([intervalo_inicial, intervalo_final], y_superior, 0, color='blue', alpha=0.7)
+            plt.fill_between([intervalo_inicial, intervalo_final], y_inferior, y_superior, color='green', alpha=1)
+            
+            print(f"El rectángulo número {i} empieza en {intervalo_inicial:.4f} y finaliza en {intervalo_final:.4f} con área inferior: {y_inferior:.4f} y área superior: {y_superior:.4f}")
 
             # Cálculo de áreas
             area_inferior += (intervalo_final - intervalo_inicial) * y_inferior
@@ -64,31 +62,60 @@ def graficar():
             intervalo_inicial = intervalo_final
 
         # Calcular el área real usando integración numérica
-        area_real, error_integral = quad(lambda x: funcion_cuadratica(a, b, c, x), x1, x2)
+        area_real, _ = quad(lambda x: funcion_cuadratica(a, b, c, x), x1, x2)
 
         # Calcular los errores
-        error_inferior = area_real - area_inferior
-        error_superior = area_real - area_superior
+        error_inferior = abs(area_real - area_inferior)
+        error_superior = abs(area_real - area_superior)
 
-        # Mostrar resultados de áreas y errores
-        messagebox.showinfo("Resultado", 
-                            f"El área de la región está entre: {area_inferior:.2f} y {area_superior:.2f}\n"
-                            f"El área real bajo la curva es: {area_real:.2f}\n"
-                            f"Error con el área inferior: {error_inferior:.2f}\n"
-                            f"Error con el área superior: {error_superior:.2f}")
+        def mostrar_resultados(area_inferior, area_superior, area_real, error_inferior, error_superior):
+          # Crear una nueva ventana
+            ventana_resultados = Toplevel(ventana)
+            ventana_resultados.title("Resultados")
+    
+            # Configurar el tamaño y el fondo de la ventana
+            ventana_resultados.geometry("400x300")
+            ventana_resultados.configure(bg="#3B8B9E")
+    
+            # Mostrar resultados en un Label
+            resultados_texto = (
+                f"El área de la región está entre: {area_inferior:.2f} y {area_superior:.2f}\n"
+                f"El área real bajo la curva es: {area_real:.2f}\n"
+                f"Error con el área inferior: {error_inferior:.2f}\n"
+                f"Error con el área superior: {error_superior:.2f}"
+                )
+    
+            label_resultados = Label(ventana_resultados, text=resultados_texto, font=("Arial", 12), bg="#3B8B9E")
+            label_resultados.pack(pady=20)
+    
+            # Botón para cerrar la ventana
+            boton_cerrar = Button(ventana_resultados, text="Cerrar", command=ventana_resultados.destroy, bg="#66B2C4")
+            boton_cerrar.pack(pady=20)
+
+        mostrar_resultados(area_inferior, area_superior, area_real, error_inferior, error_superior)
 
         # Configurar gráficos
         plt.title('Gráfico de la Función Cuadrática')
-        plt.xlabel('Eje X')
-        plt.ylabel('Eje Y')
+        plt.xlabel('Eje x')
+        plt.ylabel('Eje y', rotation=0, labelpad=20)
         plt.axhline(0, color='darkgray', lw=1.5)  # Eje X
         plt.axvline(0, color='darkgray', lw=1.5)  # Eje Y
         plt.grid()
         plt.legend()
         plt.show()
+        # Mostrar resultados de áreas y errores
 
     except ValueError:
         messagebox.showerror("Error", "Por favor ingrese valores numéricos válidos.")
+
+
+def limpiar_campos():
+    entry_a.delete(0, END)  
+    entry_b.delete(0, END)  
+    entry_c.delete(0, END)  
+    entry_x1.delete(0, END)  
+    entry_x2.delete(0, END)  
+    entry_rectangulos.delete(0, END)
 
 # INTERFAZ GRÁFICA
 
@@ -97,15 +124,15 @@ ventana.title("Calculadora de Función Cuadrática")
 ventana.configure(bg="#3B8B9E")
 
 # Etiquetas y campos de entrada
-Label(ventana, text="Ingrese el valor de a:", font=("Arial", 18), bg="#3B8B9E").grid(row=0, column=0, padx=20, pady=20, sticky=E)
+Label(ventana, text="Ingrese el valor del término cuadrático (a):", font=("Arial", 18), bg="#3B8B9E").grid(row=0, column=0, padx=20, pady=20, sticky=E)
 entry_a = Entry(ventana, font=("Arial", 18))
 entry_a.grid(row=0, column=1, padx=20, pady=20)
 
-Label(ventana, text="Ingrese el valor de b:", font=("Arial", 18), bg="#3B8B9E").grid(row=1, column=0, padx=20, pady=20, sticky=E)
+Label(ventana, text="Ingrese el valor del término lineal (b):", font=("Arial", 18), bg="#3B8B9E").grid(row=1, column=0, padx=20, pady=20, sticky=E)
 entry_b = Entry(ventana, font=("Arial", 18))
 entry_b.grid(row=1, column=1, padx=20, pady=20)
 
-Label(ventana, text="Ingrese el valor de c:", font=("Arial", 18), bg="#3B8B9E").grid(row=2, column=0, padx=20, pady=20, sticky=E)
+Label(ventana, text="Ingrese el valor del término constante (c):", font=("Arial", 18), bg="#3B8B9E").grid(row=2, column=0, padx=20, pady=20, sticky=E)
 entry_c = Entry(ventana, font=("Arial", 18))
 entry_c.grid(row=2, column=1, padx=20, pady=20)
 
@@ -121,7 +148,9 @@ Label(ventana, text="Cantidad de rectángulos:", font=("Arial", 18), bg="#3B8B9E
 entry_rectangulos = Entry(ventana, font=("Arial", 18))
 entry_rectangulos.grid(row=5, column=1, padx=20, pady=20)
 
-# Botón para graficar la función
-Button(ventana, text="Graficar Función", font=("Arial", 18), command=graficar, bg="#66B2C4").grid(row=6, columnspan=2, pady=40)
+# Botones para graficar la función y limpiar los campos
+Botón_graficar = Button(ventana, text="Graficar función", font=("Arial", 18), command=graficar, bg="#66B2C4").grid(row=6, columnspan=2, pady=40)
+Botón_limpiar = Button(ventana, text="Limpiar", font=("Arial", 18), bg="#66B2C4", command=limpiar_campos).grid(row=6, column=1, columnspan=2, pady=40)
+
 
 ventana.mainloop()
