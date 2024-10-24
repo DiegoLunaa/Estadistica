@@ -162,7 +162,7 @@ def abrir_area():
                 f"Error con el área superior: {error_superior:.4f}"
                 )
             mostrar_resultados(resultados, fig)
-            mostrar_resultados(resultados, fig)
+
 
         except ValueError:
             messagebox.showerror("Error", "Por favor ingrese valores numéricos válidos.")
