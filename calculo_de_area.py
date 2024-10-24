@@ -56,7 +56,7 @@ def abrir_area():
 
     # NO INTERFAZ
 
-    def solicitar_fraccion(entry, parametro):
+    def solicitar_entrada(entry, parametro):
         if entry.get() == '':
                 messagebox.showerror("Error", "No puede haber campos vacios.", parent=ventana)
                 return None
@@ -83,15 +83,15 @@ def abrir_area():
     def graficar():
         try:
             # Obtener valores desde los campos de entrada
-            a = solicitar_fraccion(entry_a, "término cuadrático")
+            a = solicitar_entrada(entry_a, "término cuadrático")
             if a is None: return
-            b = solicitar_fraccion(entry_b, "término lineal")
+            b = solicitar_entrada(entry_b, "término lineal")
             if b is None: return
-            c = solicitar_fraccion(entry_c, "término constante")
+            c = solicitar_entrada(entry_c, "término constante")
             if c is None: return
-            x1 = solicitar_fraccion(entry_x1, "intervalo inicial")
+            x1 = solicitar_entrada(entry_x1, "intervalo inicial")
             if x1 is None: return
-            x2 = solicitar_fraccion(entry_x2, "intervalo final")
+            x2 = solicitar_entrada(entry_x2, "intervalo final")
             if x2 is None: return
             cant_rectangulos = int(entry_rectangulos.get())
             if cant_rectangulos <= 0:

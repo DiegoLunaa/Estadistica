@@ -7,7 +7,7 @@ def mostrar_matriz(matriz):
     for i, fila in enumerate(matriz):
         print(f"{str(fila[0]):>10} {str(fila[1]):>10} {str(fila[2]):>10} | {str(fila[3]):>10}")
 
-def solicitar_fraccion(mensaje):
+def solicitar_entrada(mensaje):
     while True:
         try:
             valor = Fraction(input(mensaje))
@@ -114,10 +114,10 @@ matriz_aumentada = [[0 for _ in range(4)] for _ in range(3)]
 # Entrada de datos
 for i in range(3):
     print(f"\nIngrese los valores para la ecuación {i+1}:")
-    matriz_aumentada[i][0] = solicitar_fraccion("Coeficiente de x: ")
-    matriz_aumentada[i][1] = solicitar_fraccion("Coeficiente de y: ")
-    matriz_aumentada[i][2] = solicitar_fraccion("Coeficiente de z: ")
-    matriz_aumentada[i][3] = solicitar_fraccion("Igualdad: ")
+    matriz_aumentada[i][0] = solicitar_entrada("Coeficiente de x: ")
+    matriz_aumentada[i][1] = solicitar_entrada("Coeficiente de y: ")
+    matriz_aumentada[i][2] = solicitar_entrada("Coeficiente de z: ")
+    matriz_aumentada[i][3] = solicitar_entrada("Igualdad: ")
 
 # Mostrar la matriz inicial
 print("\nMatriz original:")
