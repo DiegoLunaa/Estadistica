@@ -4,6 +4,7 @@ from scipy.integrate import quad
 from tkinter import *
 from tkinter import messagebox
 from resultados import mostrar_resultados
+from fractions import Fraction
 
 # INTERFAZ GRÁFICA
 def abrir_area():
@@ -67,11 +68,11 @@ def abrir_area():
     def graficar():
         try:
             # Obtener valores desde los campos de entrada
-            a = float(entry_a.get())
-            b = float(entry_b.get())
-            c = float(entry_c.get())
-            x1 = float(entry_x1.get())
-            x2 = float(entry_x2.get())
+            a = float(Fraction(entry_a.get()))
+            b = float(Fraction(entry_b.get()))
+            c = float(Fraction(entry_c.get()))
+            x1 = float(Fraction(entry_x1.get()))
+            x2 = float(Fraction(entry_x2.get()))
             cant_rectangulos = int(entry_rectangulos.get())
 
             if x1 >= x2:
@@ -82,7 +83,9 @@ def abrir_area():
             fig, ax = plt.subplots(figsize=(7, 6), dpi=100)
             x_values = np.linspace(x1 - 4, x2 + 4, 400)
             y_values = funcion_cuadratica(a, b, c, x_values)
-            ax.plot(x_values, y_values, label=f'f(x) = {a}x² + {b}x + {c}', color='blue')
+            ax.plot(x_values, y_values, label=f'f(x) = {negativo(round(a, 4))}x² + {negativo(round(b, 4))}x + {negativo(round(c, 4))}', color='blue')
+
+
             
 
             plt.plot(x_values, y_values, label=f'f(x) = {negativo(a)}x² + {negativo(b)}x + {negativo(c)}', color='blue')
@@ -146,7 +149,7 @@ def abrir_area():
 
     #INTERFAZ
     # Botones para graficar la función y limpiar los campos
-    
+
     Boton_graficar = Button(ventana, text="Resolver", font=("Arial", 14), command=graficar, bg="White",width=10)
     Boton_graficar.place(x=528, y=538)
     boton_limpiar = Button(ventana, text="Limpiar", font=("Arial", 14), bg="White", command=limpiar_campos,width=10)
@@ -155,3 +158,4 @@ def abrir_area():
     boton_salir.place(x=669, y=538)
 
     ventana.mainloop()
+
