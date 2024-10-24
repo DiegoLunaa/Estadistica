@@ -2,7 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 from calculo_de_area import abrir_area
+<<<<<<< Updated upstream
 from v3 import abrir_ecuaciones
+=======
+from sistemas_ecuaciones import abrir_ecuaciones
+>>>>>>> Stashed changes
 import sys
 
 ventana = tk.Tk()
