@@ -3,6 +3,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 from calculo_de_area import abrir_area
 import sys
+from sistemas_ecuaciones import abrir_ecuaciones
 
 ventana = tk.Tk()
 ventana.title("PROGRAMA DE ESTADÍSTICA Y PROBABILIDAD")
@@ -27,7 +28,7 @@ label_pregunta.place(relx=0.5, y=300, anchor='center')
 boton_area = tk.Button(ventana, text="CÁLCULO DE ÁREA", width=22, fg="White", font=("Arial", 14), bg="#274357",command=abrir_area)
 boton_area.place(relx=0.5, y=370, anchor='center') 
 
-boton_ecuacion = tk.Button(ventana, text="ECUACIONES LINEALES", width=22, fg="White", font=("Arial", 14), bg="#274357")
+boton_ecuacion = tk.Button(ventana, text="ECUACIONES LINEALES", width=22, fg="White", font=("Arial", 14), bg="#274357",command=abrir_ecuaciones)
 boton_ecuacion.place(relx=0.5, y=440, anchor='center') 
 
 boton_salir = tk.Button(ventana, text="SALIR", width=22, fg="White", font=("Arial", 14), bg="#274357", command=sys.exit)
