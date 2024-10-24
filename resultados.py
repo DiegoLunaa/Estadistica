@@ -11,7 +11,7 @@ def mostrar_resultados(resultados, fig):
     ventana_resultados.geometry("1366x768")
 
     # Frame para los resultados del área
-    frame_resultados = tk.Frame(ventana_resultados, width=500, height=768, bg="#274357")
+    frame_resultados = tk.Frame(ventana_resultados, width=520, height=768, bg="#274357")
     frame_resultados.place(x=0, y=0)
 
     # Frame para el gráfico

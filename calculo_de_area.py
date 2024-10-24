@@ -6,6 +6,7 @@ from tkinter import messagebox
 from resultados import mostrar_resultados
 from fractions import Fraction
 
+
 # INTERFAZ GRÁFICA
 def abrir_area():
     ventana = Toplevel()
@@ -54,6 +55,20 @@ def abrir_area():
     entry_rectangulos.place(x=536, y=483,width=200)
 
     # NO INTERFAZ
+
+    def solicitar_fraccion(entry, parametro):
+        if entry.get() == '':
+                messagebox.showerror("Error", "No puede haber campos vacios.", parent=ventana)
+                return None
+        try:
+            valor = Fraction(entry.get())
+            return float(valor)
+        except ValueError:
+            messagebox.showerror("Error", f"Ingrese un valor válido para el {parametro} (puede ser entero, fracción o decimal): ", parent=ventana)
+            entry.delete(0, END)
+            return None
+    
+
     # Función para verificar si el número es negativo (para mostrarlo con paréntesis)
     def negativo(variable):
         if variable < 0:
@@ -68,12 +83,20 @@ def abrir_area():
     def graficar():
         try:
             # Obtener valores desde los campos de entrada
-            a = float(Fraction(entry_a.get()))
-            b = float(Fraction(entry_b.get()))
-            c = float(Fraction(entry_c.get()))
-            x1 = float(Fraction(entry_x1.get()))
-            x2 = float(Fraction(entry_x2.get()))
+            a = solicitar_fraccion(entry_a, "término cuadrático")
+            if a is None: return
+            b = solicitar_fraccion(entry_b, "término lineal")
+            if b is None: return
+            c = solicitar_fraccion(entry_c, "término constante")
+            if c is None: return
+            x1 = solicitar_fraccion(entry_x1, "intervalo inicial")
+            if x1 is None: return
+            x2 = solicitar_fraccion(entry_x2, "intervalo final")
+            if x2 is None: return
             cant_rectangulos = int(entry_rectangulos.get())
+            if cant_rectangulos <= 0:
+                messagebox.showerror("Error", "La cantidad de rectángulos debe ser mayor que cero.")
+                return
 
             if x1 >= x2:
                 messagebox.showerror("Error", "El límite izquierdo debe ser menor que el derecho")
@@ -132,7 +155,13 @@ def abrir_area():
             plt.grid()
             #plt.legend()
         
-            resultados = f"Área real: {area_real}\nÁrea inferior: {area_inferior}\nÁrea superior: {area_superior}\nÁrea real: {area_real}\nError inferior: {error_inferior}\nError superior: {error_superior}\n"
+            resultados = (
+                f"El área de la región está entre: {area_inferior:.4f} y {area_superior:.4f}\n"
+                f"El área real bajo la curva es: {area_real:.4f}\n"
+                f"Error con el área inferior: {error_inferior:.4f}\n"
+                f"Error con el área superior: {error_superior:.4f}"
+                )
+            mostrar_resultados(resultados, fig)
             mostrar_resultados(resultados, fig)
 
         except ValueError:
