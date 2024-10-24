@@ -31,5 +31,4 @@ def mostrar_resultados(resultados, fig):
     boton_salir.place(relx=0.5, y=700, anchor='center')
     ventana_resultados.mainloop()
     
-    ventana_resultados.mainloop()
 
