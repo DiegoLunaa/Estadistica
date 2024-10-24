@@ -3,6 +3,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 from calculo_de_area import abrir_area
 import sys
+from sistemas_ecuaciones import abrir_ecuaciones
 
 ventana = tk.Tk()
 ventana.title("PROGRAMA DE ESTADÍSTICA Y PROBABILIDAD")
@@ -10,11 +11,12 @@ ventana.geometry(f"800x600")
 ventana.configure(bg="#1F6680")
 
 # Logo Isaui
-imagen = Image.open("C:/Users/benja/OneDrive/Desktop/Estadistica/isaui.png")
+imagen = Image.open("C:/Users/vanes/Desktop/agu/programacion/Estadistica/isaui.png")
 imagen_redimensionada = imagen.resize((500, 350))  # Tamaño ajustado
 imagen_logo = ImageTk.PhotoImage(imagen_redimensionada)
 label_imagen = tk.Label(ventana, image=imagen_logo, bg="#1F6680")
 label_imagen.place(relx=0.5, y=100,anchor='center')  # Ajuste de posición
+
 
 #Labels
 label_estadistica = tk.Label(ventana, text="ESTADÍSTICA Y PROBABILIDAD\nAPLICADA", font=("Arial", 24), bg="#1F6680", fg="white")
@@ -27,7 +29,7 @@ label_pregunta.place(relx=0.5, y=300, anchor='center')
 boton_area = tk.Button(ventana, text="CÁLCULO DE ÁREA", width=22, fg="White", font=("Arial", 14), bg="#274357",command=abrir_area)
 boton_area.place(relx=0.5, y=370, anchor='center') 
 
-boton_ecuacion = tk.Button(ventana, text="ECUACIONES LINEALES", width=22, fg="White", font=("Arial", 14), bg="#274357")
+boton_ecuacion = tk.Button(ventana, text="ECUACIONES LINEALES", width=22, fg="White", font=("Arial", 14), bg="#274357",command=abrir_ecuaciones)
 boton_ecuacion.place(relx=0.5, y=440, anchor='center') 
 
 boton_salir = tk.Button(ventana, text="SALIR", width=22, fg="White", font=("Arial", 14), bg="#274357", command=sys.exit)

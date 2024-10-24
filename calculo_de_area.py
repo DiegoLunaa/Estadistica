@@ -24,17 +24,17 @@ def abrir_area():
     label_funcion.place(relx=0.5,rely=0.5, anchor='center')
 
     # Etiquetas y campos de entrada
-    label_a = Label(ventana, text="Ingrese el valor del término cuadrático (a):", font=("Arial", 18), fg="white", bg="#1F6680")
+    label_a = Label(ventana, text="Ingrese el valor del coeficiente cuadrático (a):", font=("Arial", 18), fg="white", bg="#1F6680")
     label_a.place(x=5, y=163)
     entry_a = Entry(ventana, font=("Arial", 18))
     entry_a.place(x=536, y=163,width=200)
 
-    label_b = Label(ventana, text="Ingrese el valor del término lineal (b):", font=("Arial", 18),fg="white", bg="#1F6680")
+    label_b = Label(ventana, text="Ingrese el valor del coeficiente lineal (b):", font=("Arial", 18),fg="white", bg="#1F6680")
     label_b.place(x=5, y=227)
     entry_b = Entry(ventana, font=("Arial", 18))
     entry_b.place(x=536, y=227,width=200)
 
-    label_c = Label(ventana, text="Ingrese el valor del término constante (c):", font=("Arial", 18),fg="white", bg="#1F6680")
+    label_c = Label(ventana, text="Ingrese el valor del término indepndiente (c):", font=("Arial", 18),fg="white", bg="#1F6680")
     label_c.place(x=5, y=291)
     entry_c = Entry(ventana, font=("Arial", 18))
     entry_c.place(x=536, y=291,width=200)
@@ -108,10 +108,7 @@ def abrir_area():
             y_values = funcion_cuadratica(a, b, c, x_values)
             ax.plot(x_values, y_values, label=f'f(x) = {negativo(round(a, 4))}x² + {negativo(round(b, 4))}x + {negativo(round(c, 4))}', color='blue')
 
-
-            
-
-            plt.plot(x_values, y_values, label=f'f(x) = {negativo(a)}x² + {negativo(b)}x + {negativo(c)}', color='blue')
+            #plt.plot(x_values, y_values, label=f'f(x) = {negativo(a)}x² + {negativo(b)}x + {negativo(c)}', color='blue')
 
             # Área con rectángulos
             intervalo_rectangulo = (x2 - x1) / cant_rectangulos
@@ -129,7 +126,7 @@ def abrir_area():
                 # Rellenar el área inferior en rojo
                 plt.fill_between([intervalo_inicial, intervalo_final], 0, y_inferior, color='red', alpha=1)
 
-                # Rellenar el área superior en azul
+                # Rellenar el área superior en verde
                 plt.fill_between([intervalo_inicial, intervalo_final], y_inferior, y_superior, color='green', alpha=1)
                 
                 print(f"El rectángulo número {i} empieza en {intervalo_inicial:.4f} y finaliza en {intervalo_final:.4f} con área inferior: {y_inferior:.4f} y área superior: {y_superior:.4f}")
@@ -157,8 +154,8 @@ def abrir_area():
         
             resultados = (
                 f"El área de la región está entre:\n" 
-                f"{area_inferior:.4f} y {area_superior:.4f}\n"
-                f"El área real bajo la curva es: {area_real:.4f}\n"
+                f"{abs(area_inferior):.4f} y {abs(area_superior):.4f}\n"
+                f"El área real bajo la curva es: {abs(area_real):.4f}\n"
                 f"Error con el área inferior: {error_inferior:.4f}\n"
                 f"Error con el área superior: {error_superior:.4f}"
                 )
