@@ -95,11 +95,11 @@ def abrir_area():
             if x2 is None: return
             cant_rectangulos = int(entry_rectangulos.get())
             if cant_rectangulos <= 0:
-                messagebox.showerror("Error", "La cantidad de rectángulos debe ser mayor que cero.")
+                messagebox.showerror("Error", "La cantidad de rectángulos debe ser mayor que cero.", parent=ventana)
                 return
 
             if x1 >= x2:
-                messagebox.showerror("Error", "El límite izquierdo debe ser menor que el derecho")
+                messagebox.showerror("Error", "El límite izquierdo debe ser menor que el derecho", parent=ventana)
                 return
 
             # Graficar la función cuadrática
@@ -166,7 +166,7 @@ def abrir_area():
 
 
         except ValueError:
-            messagebox.showerror("Error", "Por favor ingrese valores numéricos válidos.")
+            messagebox.showerror("Error", "Por favor ingrese valores numéricos válidos.", parent=ventana)
 
 
     def limpiar_campos():
