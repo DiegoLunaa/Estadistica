@@ -156,7 +156,8 @@ def abrir_area():
             #plt.legend()
         
             resultados = (
-                f"El área de la región está entre: {area_inferior:.4f} y {area_superior:.4f}\n"
+                f"El área de la región está entre:\n" 
+                f"{area_inferior:.4f} y {area_superior:.4f}\n"
                 f"El área real bajo la curva es: {area_real:.4f}\n"
                 f"Error con el área inferior: {error_inferior:.4f}\n"
                 f"Error con el área superior: {error_superior:.4f}"
