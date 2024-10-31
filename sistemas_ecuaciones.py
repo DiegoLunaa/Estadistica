@@ -8,8 +8,15 @@ from resultados_ecuaciones import mostrar_resultados_ecuaciones
 #INTERFAZ GRÁFICA
 def abrir_ecuaciones():
     ventana = Toplevel()
-    ventana.geometry("800x600")
     ventana.title("Calculadora de ecuaciones lineales")
+    window_width = 800
+    window_height = 600
+    ventana.geometry(f"{window_width}x{window_height}")
+    screen_width = ventana.winfo_screenwidth()
+    screen_height = ventana.winfo_screenheight()
+    x = (screen_width - window_width) // 2
+    y = (screen_height - window_height) // 2
+    ventana.geometry(f"{window_width}x{window_height}+{x}+{y}")
     ventana.configure(bg="#1F6680")
 
     label_titulo = Label(ventana, text="Sistemas de ecuaciones\nlineales", font=("Arial", 24), bg="#1F6680", fg="white")
@@ -165,9 +172,9 @@ def abrir_ecuaciones():
         
 
     Boton_resolver = Button(ventana, text="Resolver", font=("Arial", 14), bg="White",width=10, command=resolver_sistema)
-    Boton_resolver.place(x=528, y=538)
+    Boton_resolver.place(x=388, y=538)
     boton_limpiar = Button(ventana, text="Limpiar", font=("Arial", 14), bg="White",width=10, command=limpiar_campos)
-    boton_limpiar.place(x=388, y=538)
+    boton_limpiar.place(x=528, y=538)
     boton_salir = Button(ventana, text="Salir", font=("Arial", 14), bg="White", command=ventana.destroy,width=10)
     boton_salir.place(x=669, y=538)
 

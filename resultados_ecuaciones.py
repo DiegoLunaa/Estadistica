@@ -6,6 +6,15 @@ def mostrar_resultados_ecuaciones(matriz, x, y, z, tipo, pasos):
     ventana_ecuaciones = Toplevel()
     ventana_ecuaciones.title("Resultados de Ecuaciones")
     ventana_ecuaciones.geometry("1366x768")
+    def activar_pantalla_completa(event=None):
+        ventana_ecuaciones.attributes("-fullscreen", True)
+
+    def desactivar_pantalla_completa(event=None):
+        ventana_ecuaciones.attributes("-fullscreen", False)
+
+    ventana_ecuaciones.bind("<Escape>", desactivar_pantalla_completa)
+    ventana_ecuaciones.bind("<F11>", activar_pantalla_completa)
+    ventana_ecuaciones.attributes("-fullscreen", True)  # Iniciar en pantalla completa
     
     # Frame para los resultados
     frame_resultados = Frame(ventana_ecuaciones, width=400, height=768, bg="#274357")
@@ -77,19 +86,18 @@ def mostrar_resultados_ecuaciones(matriz, x, y, z, tipo, pasos):
     entry_tipo_sistema.place(x=34, y=576, width=300)
 
     # Frame para la parte derecha (paso a paso)
-    frame_pasos = Frame(ventana_ecuaciones, width=400, height=768, bg="#37475A")
-    frame_pasos.grid(row=0, column=1, sticky="nswe")
+    frame_pasos = Frame(ventana_ecuaciones, width=966, height=768, bg="#1F6680")
+    frame_pasos.place(x=400,y=0)
 
-    label_pasos = Label(frame_pasos, text="Paso a Paso", font=("Arial", 18), bg="#37475A", fg="white")
-    label_pasos.pack(pady=20)
-
+    label_pasos = Label(frame_pasos, text="Paso a Paso", font=("Arial", 18), bg="#1F6680", fg="white")
+    label_pasos.place(relx=0.5, y=50, anchor='center')
     # Caja de texto para mostrar el paso a paso
-    caja_pasos = Text(frame_pasos, font=("Arial", 14), wrap=WORD, bg="#EAECEE", fg="black", state='disabled')
-    caja_pasos.pack(side=LEFT, fill=BOTH, expand=True, padx=20, pady=20)
+    caja_pasos = Text(frame_pasos, font=("Arial", 14), wrap=WORD, bg="#EAECEE", fg="black", state='disabled', width=60, height=22)
+    caja_pasos.place(relx=0.5, rely=0.5, anchor='center')
     
     # Crear el scrollbar y configurarlo para la caja de texto
     scroll_pasos = Scrollbar(frame_pasos, command=caja_pasos.yview)
-    scroll_pasos.pack(side=RIGHT, fill=Y)
+    scroll_pasos.place(relx=0.5, rely=0.5, anchor='w', x=332,height=487)
     caja_pasos.config(yscrollcommand=scroll_pasos.set)
 
     # Insertar los pasos en la caja de texto

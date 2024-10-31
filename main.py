@@ -7,11 +7,18 @@ from sistemas_ecuaciones import abrir_ecuaciones
 
 ventana = tk.Tk()
 ventana.title("PROGRAMA DE ESTADÍSTICA Y PROBABILIDAD")
-ventana.geometry(f"800x600")
+window_width = 800
+window_height = 600
+ventana.geometry(f"{window_width}x{window_height}")
+screen_width = ventana.winfo_screenwidth()
+screen_height = ventana.winfo_screenheight()
+x = (screen_width - window_width) // 2
+y = (screen_height - window_height) // 2
+ventana.geometry(f"{window_width}x{window_height}+{x}+{y}")
 ventana.configure(bg="#1F6680")
 
 # Logo Isaui
-imagen = Image.open("C:/Users/vanes/Desktop/agu/programacion/Estadistica/isaui.png")
+imagen = Image.open("C:/Estadistica/isaui.png")
 imagen_redimensionada = imagen.resize((500, 350))  # Tamaño ajustado
 imagen_logo = ImageTk.PhotoImage(imagen_redimensionada)
 label_imagen = tk.Label(ventana, image=imagen_logo, bg="#1F6680")
