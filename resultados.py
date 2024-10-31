@@ -9,6 +9,15 @@ def mostrar_resultados(resultados, fig):
     ventana_resultados = tk.Toplevel()
     ventana_resultados.title("Resultados y Gráfico")
     ventana_resultados.geometry("1366x768")
+    def activar_pantalla_completa(event=None):
+        ventana_resultados.attributes("-fullscreen", True)
+
+    def desactivar_pantalla_completa(event=None):
+        ventana_resultados.attributes("-fullscreen", False)
+
+    ventana_resultados.bind("<Escape>", desactivar_pantalla_completa)
+    ventana_resultados.bind("<F11>", activar_pantalla_completa)
+    ventana_resultados.attributes("-fullscreen", True)  # Iniciar en pantalla completa
 
     # Frame para los resultados del área
     frame_resultados = tk.Frame(ventana_resultados, width=520, height=768, bg="#274357")

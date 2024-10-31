@@ -8,8 +8,15 @@ from resultados_ecuaciones import mostrar_resultados_ecuaciones
 #INTERFAZ GRÁFICA
 def abrir_ecuaciones():
     ventana = Toplevel()
-    ventana.geometry("800x600")
     ventana.title("Calculadora de ecuaciones lineales")
+    window_width = 800
+    window_height = 600
+    ventana.geometry(f"{window_width}x{window_height}")
+    screen_width = ventana.winfo_screenwidth()
+    screen_height = ventana.winfo_screenheight()
+    x = (screen_width - window_width) // 2
+    y = (screen_height - window_height) // 2
+    ventana.geometry(f"{window_width}x{window_height}+{x}+{y}")
     ventana.configure(bg="#1F6680")
 
     label_titulo = Label(ventana, text="Sistemas de ecuaciones\nlineales", font=("Arial", 24), bg="#1F6680", fg="white")
@@ -18,7 +25,7 @@ def abrir_ecuaciones():
     #frame con label matriz
     frame_matriz = Frame(ventana, bg="#274357")
     frame_matriz.place(x=0, y=90, width=800, height=48)
-    label_matriz = Label(frame_matriz, text="Determine la matriz 3x3 a trabajar", font=("Arial", 18), bg="#274357", fg="white")
+    label_matriz = Label(frame_matriz, text="Determine la matriz 3x3 aumentada a trabajar", font=("Arial", 18), bg="#274357", fg="white")
     label_matriz.place(relx=0.5,rely=0.5, anchor='center')
 
     label_ecuacion1 = Label(ventana, text="Primera ecuación:", font=("Arial", 18), fg="white", bg="#1F6680")
@@ -73,6 +80,9 @@ def abrir_ecuaciones():
         # Inicialización de la matriz aumentada
         matriz_aumentada = [[0 for _ in range(4)] for _ in range(3)]
 
+        # Lista para almacenar los pasos
+        pasos = []
+
         # Obtener valores de las entradas para la primera ecuación
         x1 = solicitar_entrada(entry_x1)
         y1 = solicitar_entrada(entry_y1)
@@ -102,15 +112,20 @@ def abrir_ecuaciones():
         matriz_original = [fila[:] for fila in matriz_aumentada]
 
         # Mostrar la matriz inicial
-        print("\nMatriz original:")
-        mostrar_matriz(matriz_original)
+        mensaje = "\nMatriz original:"
+        mensaje += mostrar_matriz(matriz_original)
+        guardar_paso(pasos, mensaje)
 
         # Llamada al método de Gauss-Jordan
-        solucion = gauss_jordan(matriz_aumentada)
+        solucion, pasos = gauss_jordan(matriz_aumentada, pasos)
 
         # Mostrar la matriz en forma escalonada reducida
-        print("\nMatriz en forma escalonada reducida:")
-        mostrar_matriz(solucion)
+        mensaje = "\nMatriz en forma escalonada reducida:"
+        mensaje += mostrar_matriz(solucion)
+        guardar_paso(pasos, mensaje)
+
+        for paso in pasos:
+            print(paso)
 
         # Determinar el tipo de sistema
         tipo = tipo_de_sistema(solucion)
@@ -137,7 +152,7 @@ def abrir_ecuaciones():
             print("\nEl sistema es incompatible. No tiene solución.")
             x, y, z = None, None, None
 
-        mostrar_resultados_ecuaciones(matriz_original, x, y, z, tipo)
+        mostrar_resultados_ecuaciones(matriz_original, x, y, z, tipo, pasos)
 
     def limpiar_campos(): 
         entry_x1.delete(0, END)
@@ -157,18 +172,22 @@ def abrir_ecuaciones():
         
 
     Boton_resolver = Button(ventana, text="Resolver", font=("Arial", 14), bg="White",width=10, command=resolver_sistema)
-    Boton_resolver.place(x=528, y=538)
+    Boton_resolver.place(x=388, y=538)
     boton_limpiar = Button(ventana, text="Limpiar", font=("Arial", 14), bg="White",width=10, command=limpiar_campos)
-    boton_limpiar.place(x=388, y=538)
+    boton_limpiar.place(x=528, y=538)
     boton_salir = Button(ventana, text="Salir", font=("Arial", 14), bg="White", command=ventana.destroy,width=10)
     boton_salir.place(x=669, y=538)
 
 
 # Funciones auxiliares
     def mostrar_matriz(matriz):
-        print("")
+        #print("")
+        mensaje = "\n"
         for i, fila in enumerate(matriz):
-            print(f"{str(fila[0]):>10} {str(fila[1]):>10} {str(fila[2]):>10} | {str(fila[3]):>10}")
+            #print(f"{str(fila[0]):>10} {str(fila[1]):>10} {str(fila[2]):>10} | {str(fila[3]):>10}")
+            mensaje += f"\n{str(fila[0]):>10} {str(fila[1]):>10} {str(fila[2]):>10} | {str(fila[3]):>10}"
+
+        return mensaje
 
     def solicitar_entrada(entry_widget):
         try:
@@ -179,6 +198,9 @@ def abrir_ecuaciones():
             # Si ocurre un error, mostrar un cuadro de mensaje de error
             messagebox.showerror("Entrada inválida", "Por favor, ingrese un número válido (puede ser entero, fracción o decimal).")
             return None
+        
+    def guardar_paso(lista, mensaje):
+        lista.append(mensaje)
 
     # Funciones de OEF
     def multiplicar_fila(matriz, indice_fila, k):
@@ -196,7 +218,8 @@ def abrir_ecuaciones():
         return matriz
 
     # Funciones de desarrollo
-    def gauss_jordan(matriz):
+    def gauss_jordan(matriz, pasos):
+        #pasos = []
         filas = len(matriz)
         
         for i in range(filas):
@@ -210,8 +233,9 @@ def abrir_ecuaciones():
             # Si existe un 1 en la columna i, intercambiar filas para aprovecharlo
             if fila_con_uno is not None and fila_con_uno != i:
                 intercambiar_filas(matriz, i, fila_con_uno)
-                print(f"\nIntercambiando fila {i + 1} con fila {fila_con_uno + 1} (aprovechando el 1):")
-                mostrar_matriz(matriz)
+                mensaje = f"\nIntercambiando fila {i + 1} con fila {fila_con_uno + 1} (aprovechando el 1):"
+                mensaje += mostrar_matriz(matriz)
+                guardar_paso(pasos, mensaje)
             
             # Si no hay un 1, asegurarse de no usar un 0 como pivote
             if matriz[i][i] == 0:
@@ -219,16 +243,18 @@ def abrir_ecuaciones():
                 for j in range(i + 1, filas):
                     if matriz[j][i] != 0:
                         intercambiar_filas(matriz, i, j)
-                        print(f"\nIntercambiando fila {i + 1} con fila {j + 1} (evitar pivote 0):")
-                        mostrar_matriz(matriz)
+                        mensaje = f"\nIntercambiando fila {i + 1} con fila {j + 1} (evitar pivote 0):"
+                        mensaje += mostrar_matriz(matriz)
+                        guardar_paso(pasos, mensaje)
                         break
 
             # Hacer que el pivote sea 1 si no lo es ya
             if matriz[i][i] != 1 and matriz[i][i] != 0:
                 multiplicador = Fraction(1, matriz[i][i])
                 multiplicar_fila(matriz, i, multiplicador)
-                print(f"\nMultiplicando fila {i + 1} por {multiplicador}:")
-                mostrar_matriz(matriz)
+                mensaje = f"\nMultiplicando fila {i + 1} por {multiplicador}:"
+                mensaje += mostrar_matriz(matriz)
+                guardar_paso(pasos, mensaje)
 
             # Paso 2: Hacer ceros en la columna i para todas las filas por encima y por debajo
             for j in range(filas):
@@ -236,10 +262,11 @@ def abrir_ecuaciones():
                     k = -matriz[j][i]
                     if k != 0:  # Evitar hacer operaciones si el valor ya es 0
                         sumar_multiplo_fila(matriz, j, i, k)
-                        print(f"\nSumando {k} veces fila {i + 1} a fila {j + 1}:")
-                        mostrar_matriz(matriz)
+                        mensaje = f"\nSumando {k} veces fila {i + 1} a fila {j + 1}:"
+                        mensaje += mostrar_matriz(matriz)
+                        guardar_paso(pasos, mensaje)
 
-        return matriz
+        return matriz, pasos
 
     def tipo_de_sistema(matriz):
         filas = len(matriz)

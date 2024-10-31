@@ -10,9 +10,16 @@ from fractions import Fraction
 # INTERFAZ GRÁFICA
 def abrir_area():
     ventana = Toplevel()
-    ventana.geometry("800x600")
     ventana.title("Calculadora de Función Cuadrática")
     ventana.configure(bg="#1F6680")
+    window_width = 800
+    window_height = 600
+    ventana.geometry(f"{window_width}x{window_height}")
+    screen_width = ventana.winfo_screenwidth()
+    screen_height = ventana.winfo_screenheight()
+    x = (screen_width - window_width) // 2
+    y = (screen_height - window_height) // 2
+    ventana.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
     label_titulo = Label(ventana, text="Cálculo de áreas de\nregiones curvas", font=("Arial", 24), bg="#1F6680", fg="white")
     label_titulo.place(relx=0.5, y=50, anchor='center')
@@ -178,9 +185,9 @@ def abrir_area():
     # Botones para graficar la función y limpiar los campos
 
     Boton_graficar = Button(ventana, text="Resolver", font=("Arial", 14), command=graficar, bg="White",width=10)
-    Boton_graficar.place(x=528, y=538)
+    Boton_graficar.place(x=388, y=538)
     boton_limpiar = Button(ventana, text="Limpiar", font=("Arial", 14), bg="White", command=limpiar_campos,width=10)
-    boton_limpiar.place(x=388, y=538)
+    boton_limpiar.place(x=528, y=538)
     boton_salir = Button(ventana, text="Salir", font=("Arial", 14), bg="White", command=ventana.destroy,width=10)
     boton_salir.place(x=669, y=538)
 
